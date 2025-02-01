@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  name      String?
+  email     String  @unique
+  password  String
+  image     String?
+  favorites Favorite[]
+}
+
+model Game {
+  id          Int     @id @default(autoincrement())
+  title       String
+  released    String
+  rating      Float
+  background  String
+  description String?
+  
+  favorites   Favorite[] // 🔹 Relation inverse avec Favorite
+}
+
+model Favorite {
+  id      Int    @id @default(autoincrement())
+  userId  String
+  gameId  Int
+  user    User   @relation(fields: [userId], references: [id])
+  game    Game   @relation(fields: [gameId], references: [id])
+
+  @@unique([userId, gameId]) // 🔹 Empêche un utilisateur d'ajouter 2 fois le même jeu en favoris
+}
