@@ -61,7 +61,7 @@ export default function Home() {
           {loading
             ? Array(6)
                 .fill(0)
-                .map((_, index) => <GameCardLoader key={index} />) // Render 6 placeholders
+                .map((_, index) => <GameCardLoader key={index} />) // 6 spiners placeholders
             : games.map((game) => <GameCard key={game.id} game={game} />)}
         </div>
       </Section>
