@@ -1,24 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import GameCard from "../components/GameCard";
+import GameCardLoader from "../components/GameCardLoader";
+import { ButtonProps, Game, SectionProps } from "../types/types";
 
-// Types
-type Game = {
-  id: number;
-  name: string;
-  rating: number;
-  background_image: string;
-};
-
-// Button Component
-type ButtonProps = {
-  href: string;
-  text: string;
-  className: string;
-};
 const Button = ({ href, text, className }: ButtonProps) => (
-  <Link href={href} className="w-full ">
+  <Link href={href} className="w-full">
     <button
       className={`p-3 text-sm sm:text-lg font-bold ${className} text-white rounded-md shadow-md shadow-sky-600 hover:bg-gray-600 transition`}
     >
@@ -27,30 +15,33 @@ const Button = ({ href, text, className }: ButtonProps) => (
   </Link>
 );
 
-// Section Wrapper Component
-type SectionProps = {
-  children: React.ReactNode;
-  className?: string;
-};
 const Section = ({ children, className }: SectionProps) => (
   <section className={`flex flex-col gap-10 ${className}`}>{children}</section>
 );
 
 export default function Home() {
   const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch trending games from RAWG API
   useEffect(() => {
+    setLoading(true);
     fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
       .then((res) => res.json())
-      .then((data) => setGames(data.results.slice(0, 6))); // Limit to 6 games
+      .then((data) => {
+        setGames(data.results.slice(0, 6));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
     <div className="flex flex-col gap-10">
-      {/* Hero Section */}
+      {/* Hero Section with Image Spinner */}
       <Section className="relative p-10 items-center justify-start h-96 sm:h-[500px] md:h-[70vh] text-center">
-        <div className="hero-bg absolute inset-1 bg-cover bg-center bg-no-repeat opacity-55 rounded-md"></div>
+        <div
+          className={`hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-55 rounded-md transition-opacity duration-500 ${loading && "animate-pulse bg-gray-700"} `}
+        ></div>
         <div className="relative">
           <h1 className="text-3xl sm:text-5xl font-bold">Find. Play. Enjoy.</h1>
           <p className="my-4 text-sm sm:text-lg font-semibold">
@@ -67,23 +58,11 @@ export default function Home() {
       <Section>
         <h2 className="text-3xl sm:text-4xl font-bold text-center">🔥 Trending Games</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {games.map((game) => (
-            <div
-              key={game.id}
-              className="flex flex-col relative bg-gray-900 rounded-lg p-4 shadow-lg hover:scale-105 transition duration-200"
-            >
-              <Image
-                alt={game.name}
-                src={game.background_image}
-                className="w-full h-54 object-cover rounded-lg md:h-48 md:object-top"
-                width={500}
-                height={500}
-                loading="lazy"
-              />
-              <h3 className="mt-2 text-lg font-semibold text-white">{game.name}</h3>
-              <p className="text-yellow-500 font-black">⭐ {game.rating}</p>
-            </div>
-          ))}
+          {loading
+            ? Array(6)
+                .fill(0)
+                .map((_, index) => <GameCardLoader key={index} />) // Render 6 placeholders
+            : games.map((game) => <GameCard key={game.id} game={game} />)}
         </div>
       </Section>
     </div>
