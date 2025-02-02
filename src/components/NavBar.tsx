@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Twirl as Hamburger } from 'hamburger-react';
@@ -31,31 +32,30 @@ export const links: LinkType[] = [
 ];
 
 function NavBar() {
-    const [activeLink, setActiveLink] = useState("/");
+    const pathname = usePathname();
     const [isOpenMenu, setIsOpenMenu] = useState(false);
-    const hideMenu = (url : string) => {
-        setActiveLink(url);
+    const hideMenu = () => {
         if(isOpenMenu){
             setIsOpenMenu((isOpen) => !isOpen);
         }
     };
     return (
-    <nav className="border-b mb-4 border-blue-950/95 shadow-md shadow-blue-950 rounded-md py-2 sticky flex items-center justify-between top-0 z-10 container mx-auto bg-inherit max-w-[1280px] xl:mx-auto">
+    <nav className="border-b mb-4 border-blue-950/95 shadow-md shadow-blue-950 bg-[#12151f] rounded-md py-2 sticky flex items-center justify-between top-0 z-10 container mx-auto max-w-[1280px] xl:mx-auto">
         <div className="flex items-center gap-1 py-1 pl-2 transition-opacity duration-1000 hover:opacity-75">
-            <Link href="">
+            <Link href="/">
                 <Image className="rounded-3xl" width={40} src={logo} alt="logo" />
             </Link>
-            <Link href="">
+            <Link href="/">
                 <span className="text-2xl antialiased font-semibold">Store</span>
             </Link>
         </div>
 
-        <ul className={`${!isOpenMenu ? "hidden" : "flex"} flex-col justify-between items-center gap-4 absolute top-0 py-8 right-0 min-h-[420px] bg-sky-800 rounded-md w-full sm:w-[70%]
-        md:flex md:flex-row md:justify-between md:p-3 md:pr-4 md:bg-inherit md:min-h-max`}>
+        <ul className={`${!isOpenMenu ? "hidden" : "flex py-8"} flex-col justify-between items-center gap-4 absolute top-0 right-0 min-h-[420px] bg-sky-800 rounded-md w-full sm:w-[70%]
+        md:flex md:flex-row md:justify-between md:m-3 md:pr-4 md:bg-inherit md:min-h-max`}>
         {   links.map((item, index) =>
-                (<li key={index} className={`${activeLink === item.url && "title-blue"} font-semibold w-1/2 md:w-auto py-2 text-center shadow-md shadow-gray-900 rounded-md text-xl md:shadow-none md:text-lg md:rounded-none`}>
+                (<li key={index} className={`${pathname === item.url && "title-blue"} font-semibold w-1/2 md:w-auto py-1 text-center shadow-md shadow-gray-900 rounded-md text-xl md:shadow-none md:text-lg md:rounded-none`}>
                     <Link
-                        onClick={() => hideMenu(item.url)}
+                        onClick={hideMenu}
                         className="block md:inline hover:opacity-55 transition-opacity duration-150"
                         href={item.url}>
                         {item.text}
