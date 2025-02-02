@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import GameCard from "../components/GameCard";
-import GameCardLoader from "../components/GameCardLoader";
-import { ButtonProps, Game, SectionProps } from "../types/types";
+import GameCard from "@/components/GameCard";
+import GameCardLoader from "@/components/GameCardLoader";
+import { ButtonProps, Game, SectionProps } from "@/types/types";
 
 const Button = ({ href, text, className }: ButtonProps) => (
   <Link href={href} className="w-full">

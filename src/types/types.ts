@@ -20,3 +20,14 @@ export type SectionProps = {
   children: React.ReactNode;
   className?: string;
 };
+
+export type UserSignUpInput = {
+  email: string,
+  password: string
+  name: string
+};
+
+export type UserLoginInput = {
+  email: string ,
+  password: string
+};
