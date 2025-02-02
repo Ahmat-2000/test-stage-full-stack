@@ -28,7 +28,9 @@ export const links: LinkType[] = [
     { url: "/games", text: "Explore" },
     { url: "/favorites", text: "Favorites" },
     { url: "/profile", text: "Profile" },
+    { url: "/sinup", text: "SinUp" },
     { url: "/login", text: "Login" },
+    { url: "/logout", text: "Logout" },
 ];
 
 function NavBar() {

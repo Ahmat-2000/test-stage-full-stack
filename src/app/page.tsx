@@ -20,7 +20,7 @@ type ButtonProps = {
 const Button = ({ href, text, className }: ButtonProps) => (
   <Link href={href} className="w-full ">
     <button
-      className={`p-3 text-sm sm:text-lg font-bold ${className} text-white rounded-md shadow-lg hover:bg-gray-600 transition`}
+      className={`p-3 text-sm sm:text-lg font-bold ${className} text-white rounded-md shadow-md shadow-sky-600 hover:bg-gray-600 transition`}
     >
       {text}
     </button>
@@ -57,7 +57,7 @@ export default function Home() {
             Discover the best games and add them to your favorites!
           </p>
           <div className="my-2 flex flex-col sm:flex-row gap-2 justify-center">
-            <Button href="/signup" text="Sign Up" className="bg-sky-800 w-[60%] md:w-4/5" />
+            <Button href="/signup" text="Sign Up" className="bg-sky-800 w-[60%] sm:w-4/5" />
             <Button href="/games" text="Explore Games" className="bg-pink-800 w-[60%] sm:w-4/5" />
           </div>
         </div>
