@@ -24,30 +24,30 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch trending games from RAWG API
-  useEffect(() => {
-    fetch("/api/games")
-      .then((res) => res.json())
-      .then((res) => res.json())
-      .then((data) => {
-        setGames(data.results.slice(0, 6));
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.error("Error fetching games:", err);
-      });
-  }, []);
-  
   // useEffect(() => {
-  //   setLoading(true);
-  //   fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
+  //   fetch("/api/games")
+  //     .then((res) => res.json())
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setGames(data.results.slice(0, 6));
   //       setLoading(false);
   //     })
-  //     .catch(() => setLoading(false));
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       console.error("Error fetching games:", err);
+  //     });
   // }, []);
+  
+  useEffect(() => {
+    setLoading(true);
+    fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setGames(data.results.slice(0, 6));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   return (
     <div className="flex flex-col gap-10">
