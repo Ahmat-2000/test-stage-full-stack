@@ -25,22 +25,37 @@ export default function Home() {
 
   // Fetch trending games from RAWG API
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
+    fetch("/api/games")
+      .then((res) => res.json())
       .then((res) => res.json())
       .then((data) => {
         setGames(data.results.slice(0, 6));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        setLoading(false);
+        console.error("Error fetching games:", err);
+      });
   }, []);
+  
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setGames(data.results.slice(0, 6));
+  //       setLoading(false);
+  //     })
+  //     .catch(() => setLoading(false));
+  // }, []);
 
   return (
     <div className="flex flex-col gap-10">
       {/* Hero Section with Image Spinner */}
       <Section className="relative p-10 items-center justify-start h-96 sm:h-[500px] md:h-[70vh] text-center">
         <div
-          className={`hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-55 rounded-md transition-opacity duration-500 ${loading && "animate-pulse bg-gray-700"} `}
+          className={`hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-55 rounded-md transition-opacity duration-500  `}
+          // ${loading && "animate-pulse bg-gray-700"}
         ></div>
         <div className="relative">
           <h1 className="text-3xl sm:text-5xl font-bold">Find. Play. Enjoy.</h1>
