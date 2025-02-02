@@ -18,7 +18,7 @@ const GameCard = ({ game }: GameProps) => {
       <Image
         alt={game.name}
         src={game.background_image}
-        className="w-full h-54 object-cover rounded-lg md:h-48 md:object-top"
+        className="w-full h-54 object-cover rounded-lg sm:h-48 md:object-top"
         width={500}
         height={500}
         loading="lazy"
