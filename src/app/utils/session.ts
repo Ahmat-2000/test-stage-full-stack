@@ -3,8 +3,9 @@ import "server-only";
 import { jwtVerify, SignJWT } from "jose";
 import { userType } from "@/types/types";
 import { cookies } from "next/headers";
+import { env } from "./env";
 
-const secretKey = process.env.SESSION_SECRET_KEY;
+const secretKey = env.SESSION_SECRET_KEY;
 const encodedkey = new TextEncoder().encode(secretKey);
 
 type SessionPlayload ={
