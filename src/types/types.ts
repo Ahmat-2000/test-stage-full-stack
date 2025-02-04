@@ -69,3 +69,9 @@ export type SectionProps = {
   children: React.ReactNode;
   className?: string;
 };
+
+export type AuthContextType = {
+  isAuthenticated: boolean;
+  checkAuth: () => Promise<void>;
+  handleLogout: () => Promise<void>;
+};

@@ -3,7 +3,6 @@ import "server-only";
 import { jwtVerify, SignJWT } from "jose";
 import { userType } from "@/types/types";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const secretKey = process.env.SESSION_SECRET_KEY;
 const encodedkey = new TextEncoder().encode(secretKey);
@@ -29,6 +28,7 @@ export async function decrypt(session : string | undefined ="") {
     return payload;
   } catch (error) {
     console.log(`Failed to verify session : ${error}`);
+    return null;
   }
 }
 
@@ -55,10 +55,4 @@ export async function getSession() {
 
 export async function deleteSession() {
   (await cookies()).delete("session");
-}
-
- 
-export async function logout() {
-  deleteSession()
-  redirect('/login')
 }

@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import InputUI from "@/components/InputUI";
 import LoadingSpin from "@/components/LoadingSpin";
 import { userLoginSchema, userLoginType } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import {AuthContext} from "@/context/authContext";
 
 const LoginPage = () => {
+  const auth = useContext(AuthContext);
   const [feedback, setFeedback] = useState<{ code: string; message: string } | null>(null);
   const router = useRouter();
 
@@ -28,11 +30,12 @@ const LoginPage = () => {
       const result = await response.json();
       setFeedback(result);
       if (result.code === "SUCCESS") {
-        console.log("connecting");
-        
         setTimeout(() => {
+          auth?.checkAuth();
           router.push("/profile"); 
-        }, 1500);
+        }, 1000);
+        //router.push("/profile"); 
+        // await auth?.checkAuth();
       }
 
     } catch (error) {
