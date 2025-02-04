@@ -9,48 +9,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id        String     @id @default(uuid())
-  name      String?
+  name      String
   email     String     @unique
   password  String
   createdAt DateTime   @default(now())
-  favorites Favorite[]
+  favorites Favorites[]
 }
 
-model Game {
+model Games {
   id              String       @id @default(uuid())
   name            String    
   released        DateTime  
   rating          Float
   background_image String   
-  genres          GameGenre[] // Many-to-many relation with Genre
-  favorites       Favorite[]
+  genres          GameGenres[] // Many-to-many relation with Genre
+  favorites       Favorites[]
 }
 
-model Genre {
+model Genres {
   id    Int    @id @default(autoincrement())
   name  String @unique
-  games GameGenre[]
+  games GameGenres[]
 }
 
 // Pivot table for many-to-many relation between Game and Genre
-model GameGenre {
+model GameGenres {
   gameId  String
   genreId Int
 
-  game  Game  @relation(fields: [gameId], references: [id])
-  genre Genre @relation(fields: [genreId], references: [id])
+  game  Games  @relation(fields: [gameId], references: [id])
+  genre Genres @relation(fields: [genreId], references: [id])
 
   @@id([gameId, genreId]) // Composite primary key to avoid duplicates
 }
 
-model Favorite {
+model Favorites {
   id      String    @id @default(uuid())
   userId  String
   gameId  String
-  user    User   @relation(fields: [userId], references: [id])
-  game    Game   @relation(fields: [gameId], references: [id])
+  user    Users   @relation(fields: [userId], references: [id])
+  game    Games  @relation(fields: [gameId], references: [id])
 
   @@unique([userId, gameId]) // Prevents duplicate favorites
 }

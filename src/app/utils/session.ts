@@ -1,14 +1,15 @@
 import "server-only";
 
 import { jwtVerify, SignJWT } from "jose";
-import { UserLoginInput } from "@/types/types";
+import { userType } from "@/types/types";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const secretKey = process.env.SESSION_SECRET_KEY;
 const encodedkey = new TextEncoder().encode(secretKey);
 
 type SessionPlayload ={
-  user : UserLoginInput;
+  user : userType;
   expiresAt : Date
 };
 
@@ -31,7 +32,7 @@ export async function decrypt(session : string | undefined ="") {
   }
 }
 
-export async function createSession(user : UserLoginInput) {
+export async function createSession(user : userType) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days in ms
   const session = await encrypt({user , expiresAt});
 
@@ -39,10 +40,25 @@ export async function createSession(user : UserLoginInput) {
   (await cookies()).set("session", session, {
     httpOnly: true,
     secure: true,
+    sameSite: "lax",
     expires: expiresAt
   });
 }
 
+export async function getSession() {
+  const session = (await cookies()).get('session')?.value
+  if (!session) {
+    return null;
+  }
+  return await decrypt(session);
+}
+
 export async function deleteSession() {
   (await cookies()).delete("session");
+}
+
+ 
+export async function logout() {
+  deleteSession()
+  redirect('/login')
 }

@@ -23,21 +23,7 @@ export default function Home() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch trending games from RAWG API
-  // useEffect(() => {
-  //   fetch("/api/games")
-  //     .then((res) => res.json())
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setGames(data.results.slice(0, 6));
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       console.error("Error fetching games:", err);
-  //     });
-  // }, []);
-  
+
   useEffect(() => {
     setLoading(true);
     fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
@@ -46,7 +32,7 @@ export default function Home() {
         setGames(data.results.slice(0, 6));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      // .catch(() => setLoading(false));
   }, []);
 
   return (
@@ -76,7 +62,7 @@ export default function Home() {
           {loading
             ? Array(6)
                 .fill(0)
-                .map((_, index) => <GameCardLoader key={index} />) // 6 spiners placeholders
+                .map((_, index) => <GameCardLoader key={index} />) 
             : games.map((game) => <GameCard key={game.id} game={game} />)}
         </div>
       </Section>

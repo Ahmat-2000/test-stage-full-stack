@@ -1,7 +1,8 @@
+import { env } from "@/app/utils/env";
 
-export async function GET() {
+export async function POST(request : Request) {
   try {
-    const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
+    const API_KEY = env.NEXT_PUBLIC_RAWG_API_KEY;
     const RAWG_URL = `https://api.rawg.io/api/games?key=${API_KEY}`;
 
     const response = await fetch(RAWG_URL);
