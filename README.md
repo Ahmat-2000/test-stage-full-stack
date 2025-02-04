@@ -1,6 +1,7 @@
 # 🎮 Fun Game Store
 
 https://api.rawg.io/api/games?key=fb85f085254f44f58ce8687685bec862
+https://api.rawg.io/docs/#operation/games_additions_list
 
 ### 🎯 **Todos Roadmap**
 

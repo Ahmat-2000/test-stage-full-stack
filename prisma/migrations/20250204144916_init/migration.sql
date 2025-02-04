@@ -1,42 +1,7 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Favorite` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Game` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `GameGenre` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Genre` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "Favorite";
-PRAGMA foreign_keys=on;
-
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "Game";
-PRAGMA foreign_keys=on;
-
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "GameGenre";
-PRAGMA foreign_keys=on;
-
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "Genre";
-PRAGMA foreign_keys=on;
-
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "User";
-PRAGMA foreign_keys=on;
-
 -- CreateTable
 CREATE TABLE "Users" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
