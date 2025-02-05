@@ -7,7 +7,12 @@ export async function POST(request: Request) {
   try {
     const requestData = await request.json();
 
-    // Validate with Zod
+    /**
+     * TODO
+     * Security validation for attacks like XSS , SQLI ...
+     */
+
+    /** Validate with Zod */
     const validation = userLoginSchema.safeParse(requestData);
     if (!validation.success) {
       return Response.json({
@@ -15,13 +20,9 @@ export async function POST(request: Request) {
         message: "Invalid email or password",
       }, { status: 400 });
     }
-
-    // Security checks for XSS, SQLI 
-    // TODO
-
     const { email, password } = validation.data;
 
-    // Find user by email
+    /* Find user by email */
     const user = await prisma.users.findUnique({ where: { email } });
     if (!user) {
       return Response.json({
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
       }, { status: 401 });
     }
 
-    // Compare passwords
+    /* Compare passwords */
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return Response.json({
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
       }, { status: 401 });
     }
     const { password: pass, ...userWithoutPassword } = user;
-    // Create Session 
+    /** Create Session  */
     await createSession(userWithoutPassword);
 
     return Response.json({

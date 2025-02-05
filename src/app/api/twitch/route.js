@@ -7,6 +7,11 @@ export async function GET() {
       method : "POST",
     });
     const data = await response.json();
+    /**
+     * TODO
+     * Security validation for attacks like XSS , SQLI ...
+     */
+
     const accessToken = data.access_token;
     if (!accessToken) {
       return new Response(JSON.stringify({ error: "Failed to get token" }), { status: 500 });

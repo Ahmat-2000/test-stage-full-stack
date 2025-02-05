@@ -8,14 +8,14 @@ import { env } from "./env";
 const secretKey = env.SESSION_SECRET_KEY;
 const encodedkey = new TextEncoder().encode(secretKey);
 
-type SessionPlayload ={
+type SessionPayload ={
   user : userType;
   expiresAt : Date
 };
 
 const algo = "HS256";
 
-export async function encrypt(payload: SessionPlayload) {
+export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({alg: algo})
     .setIssuedAt()
@@ -51,7 +51,7 @@ export async function getSession() {
   if (!session) {
     return null;
   }
-  return await decrypt(session);
+  return (await decrypt(session)) as SessionPayload;
 }
 
 export async function deleteSession() {

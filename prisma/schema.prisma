@@ -1,5 +1,4 @@
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// Prisma Schema - Game Store
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,12 +18,12 @@ model Users {
 }
 
 model Games {
-  id              String       @id @default(uuid())
+  id              Int       @id @unique
   name            String    
   released        DateTime  
   rating          Float
   background_image String   
-  genres          GameGenres[] // Many-to-many relation with Genre
+  genres          GameGenres[] 
   favorites       Favorites[]
 }
 
@@ -34,23 +33,22 @@ model Genres {
   games GameGenres[]
 }
 
-// Pivot table for many-to-many relation between Game and Genre
 model GameGenres {
-  gameId  String
+  gameId  Int  
   genreId Int
 
-  game  Games  @relation(fields: [gameId], references: [id])
-  genre Genres @relation(fields: [genreId], references: [id])
+  game  Games  @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  genre Genres @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
-  @@id([gameId, genreId]) // Composite primary key to avoid duplicates
+  @@id([gameId, genreId])
 }
 
 model Favorites {
   id      String    @id @default(uuid())
   userId  String
-  gameId  String
-  user    Users   @relation(fields: [userId], references: [id])
-  game    Games  @relation(fields: [gameId], references: [id])
+  gameId  Int   
+  user    Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game    Games   @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, gameId]) // Prevents duplicate favorites
+  @@unique([userId, gameId]) 
 }

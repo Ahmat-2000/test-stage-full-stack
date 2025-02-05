@@ -6,7 +6,12 @@ export async function POST(request: Request) {
   try {
     const requestData: userSignUpType = await request.json();
 
-    // Validate with Zod
+    /**
+     * TODO
+     * Security validation for attacks like XSS , SQLI ...
+     */
+
+    /* Validate with Zod */
     const validation = userSignUpSchema.safeParse(requestData);
     if (!validation.success) {
       return new Response(JSON.stringify({
@@ -15,12 +20,9 @@ export async function POST(request: Request) {
       }), { status: 400 });
     }
 
-    // Security checks for XSS, SQL Injection 
-    // TODO
-
     const { email, name, password } = validation.data;
 
-    // Check if user already exists
+    /* Check if user already exists */
     const existingUser = await prisma.users.findUnique({ where: { email } });
     if (existingUser) {
       return new Response(JSON.stringify({
@@ -29,10 +31,10 @@ export async function POST(request: Request) {
       }), { status: 400 });
     }
 
-    // Hash Password
+    /* Hash Password */
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    // Create User in Database
+    /* Create User in Database */
     const createdUser = await prisma.users.create({
       data: { email, name, password: hashedPassword },
       select: { id: true, email: true, name: true, createdAt: true },

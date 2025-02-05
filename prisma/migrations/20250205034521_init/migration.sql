@@ -9,7 +9,7 @@ CREATE TABLE "Users" (
 
 -- CreateTable
 CREATE TABLE "Games" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
     "released" DATETIME NOT NULL,
     "rating" REAL NOT NULL,
@@ -24,25 +24,28 @@ CREATE TABLE "Genres" (
 
 -- CreateTable
 CREATE TABLE "GameGenres" (
-    "gameId" TEXT NOT NULL,
+    "gameId" INTEGER NOT NULL,
     "genreId" INTEGER NOT NULL,
 
     PRIMARY KEY ("gameId", "genreId"),
-    CONSTRAINT "GameGenres_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Games" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "GameGenres_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genres" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "GameGenres_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Games" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "GameGenres_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genres" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "Favorites" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "userId" TEXT NOT NULL,
-    "gameId" TEXT NOT NULL,
-    CONSTRAINT "Favorites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Favorites_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Games" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "gameId" INTEGER NOT NULL,
+    CONSTRAINT "Favorites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "Favorites_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Games" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Games_id_key" ON "Games"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Genres_name_key" ON "Genres"("name");

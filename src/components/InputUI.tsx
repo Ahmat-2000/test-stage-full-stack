@@ -16,9 +16,9 @@ function InputUI ({id,type,labelText,error,register} : inputProps) {
       type={type}
       id={id}
       {...register}
-      className="bg-inherit rounded-md border-none border w-full h-12 p-3 shadow shadow-sky-600/90 hover:shadow-sky-300/100 transition-shadow duration-500 focus:outline-none focus:shadow-green-600/100"
+      className="w-full h-12 p-3 border border-gray-700 rounded-md bg-gray-900/90 text-gray-300 placeholder-gray-400 shadow shadow-gray-600 outline-none focus:ring-1 focus:ring-green-900 focus:border-green-900 transition-all duration-300"
     />
-    {error && <span className="text-red-500 font-semibold mt-2">{error?.message}</span>}
+    {error && <span className="text-red-500 font-semibold mt-2 pl-1">{error?.message}</span>}
   </div>
 )};
 

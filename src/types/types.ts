@@ -36,7 +36,11 @@ export const userLoginSchema = z.object({
   email: emailValidation,
   password: passwordValidation,
 });
-
+export const profileSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  email: z.string().email("Invalid email format"),
+  password: z.string().optional(),
+});
 export type userSignUpType = z.infer<typeof userSignUpSchema>;
 export type userLoginType = z.infer<typeof userLoginSchema>;
 

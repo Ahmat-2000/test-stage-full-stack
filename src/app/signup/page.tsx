@@ -35,7 +35,7 @@ const SignUpPage = () => {
       else if (result.code === "SUCCESS") {
         setTimeout(() => {
           router.push("/login"); 
-        }, 100);
+        }, 500);
       }
 
     } catch (error) {
