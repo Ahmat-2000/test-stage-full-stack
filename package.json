@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-
+    "rm": "rm -rf prisma/migrations",
     "set-db-provider": "node set-db-provider-script.ts",
-    "vercel-build": "npm run set-db-provider && echo 'Prisma Generate' && npx prisma generate && echo 'Prisma Migrate' && npx prisma migrate deploy && echo 'Next Build' && next build",
+    "vercel-build": "npm run rm && npm run set-db-provider && echo 'Prisma Generate' && npx prisma generate && echo 'Prisma Migrate' && npx prisma migrate deploy && echo 'Next Build' && next build",
 
     "start": "next start",
     "lint": "next lint"
