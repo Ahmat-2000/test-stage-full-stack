@@ -4,7 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "prisma generate && next build",
+    "build": "next build",
+    "set-db-provider": "node set-db-provider-script.ts",
+    "migrate-dev": "npm run set-db-provider && npx prisma migrate dev",
+    "migrate": "npx prisma migrate deploy",
+    "generate": "npx prisma generate",
+    "vercel-build": "npm run set-db-provider && npm run generate && npm run migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,6 +18,7 @@
     "@prisma/client": "^6.3.0",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
     "hamburger-react": "^2.5.2",
     "jose": "^5.9.6",
     "next": "15.1.6",

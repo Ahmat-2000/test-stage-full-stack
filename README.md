@@ -1,52 +1,55 @@
-# 🎮 Fun Game Store
+# 🎮 **Fun Game Store** – Explorez, Favorisez, Jouez !
 
-https://api.rawg.io/api/games?key=fb85f085254f44f58ce8687685bec862
-https://api.rawg.io/docs/#operation/games_additions_list
-https://api.rawg.io/docs/#operation/games_list
+**Fun Game Store** est une plateforme moderne permettant aux utilisateurs de :
 
-### 🎯 **Todos Roadmap**
+- **Découvrir** les jeux vidéo populaires grâce à l'API RAWG.
+- **Gérer leurs favoris** pour retrouver rapidement leurs jeux préférés.
+- **S'inscrire et se connecter** avec un système sécurisé basé sur **JWT et sessions**.
+- **Personnaliser leur profil**.
 
-| Step    | Task                                                |
-| ------- | --------------------------------------------------- |
-| ✅ **1** | Implement Authentication (Sign Up, Login, Logout)   |
-| ✅ **2** | Create `/games` page (list, search, filters)        |
-| ✅ **3** | Implement a Favorites System (add/remove favorites) |
-| ✅ **4** | Create `/profile` page (User details & favorites)   |
-| ✅ **5** | Improve UI/UX (Footer, responsiveness, animations)  |
-| ✅ **6** | Optimize Performance (lazy loading, caching)        |
-| ✅ **7** | Deploy to **Vercel**                                |
+📌 **Déployé sur Vercel** 👉 [Fun Game Store](https://fun-game-store.vercel.app/)
 
 ---
 
-🚀 **Fun Game Store** est une plateforme où les utilisateurs peuvent explorer une liste de jeux vidéo, ajouter leurs favoris et gérer leur profil.  
+## 📌 **Table des matières**
 
-## 🌟 Fonctionnalités
-
-- 🔍 **Explorer** une liste de jeux vidéo récents et populaires.
-- 📌 **Ajouter des jeux en favoris** et les retrouver facilement.
-- 🔑 **S'inscrire et se connecter** via email.
-- 🛠️ **Modifier son profil utilisateur** (nom, avatar...).
-
----
-
-## 🚀 Démo
-
-🎯 **Lien déployé sur Vercel** 👉 [Fun Game Store](https://fun-game-store.vercel.app/)
+1. [🛠️ Technologies utilisées](#️-technologies-utilisées)
+2. [🚀 Fonctionnalités](#-fonctionnalités)
+3. [📦 Installation et configuration](#-installation-et-configuration)
+4. [🔑 Authentification & Sécurité](#-authentification--sécurité)
+5. [🔍 API utilisée](#-api-utilisée)
+6. [📜 Roadmap](#-roadmap)
+7. [💡 Ressources utiles](#-ressources-utiles)
 
 ---
 
-## 🛠️ Technologies utilisées
+## 🛠️ **Technologies utilisées**
 
-- **Next.js** (React Framework)
-- **TypeScript** (Typage robuste)
-- **TailwindCSS** (Design moderne et responsive)
-- **Prisma + SQLite** (Base de données)
-- **NextAuth.js** (Authentification sécurisée)
-- **Vercel** (Déploiement)
+| Technologie        | Description                                          |
+| ------------------ | ---------------------------------------------------- |
+| **Next.js**        | Framework React avec rendu côté serveur (App Router) |
+| **TypeScript**     | Typage robuste et sûr                                |
+| **TailwindCSS**    | Framework CSS moderne et responsive                  |
+| **Prisma**         | ORM pour gérer la base de données                    |
+| **SQLite**         | Base de données pour le développement local          |
+| **PostgreSQL**     | Base de données cloud via **Supabase**               |
+| **JWT & Sessions** | Authentification sécurisée **sans NextAuth.js**      |
+| **Vercel**         | Hébergement et déploiement                           |
 
 ---
 
-## 📦 Installation et configuration
+## 🚀 **Fonctionnalités**
+
+✔️ **Explorer** les jeux récents et populaires  
+✔️ **Rechercher** des jeux par nom et genre  
+✔️ **Ajouter en favoris** et retrouver facilement ses jeux préférés  
+✔️ **S'inscrire et se connecter** via JWT (sessions sécurisées)  
+✔️ **Modifier son profil** (nom, email, mot de passe)  
+✔️ **Interface moderne et responsive**  
+
+---
+
+## 📦 **Installation et configuration**
 
 ### 1️⃣ **Cloner le projet**
 
@@ -55,14 +58,142 @@ git clone https://github.com/Ahmat-2000/fun-game-store.git
 cd fun-game-store
 ```
 
-npm install bcryptjs @types/bcryptjs jose
+### 2️⃣ **Installer les dépendances**
 
-NextJS Server Actions - https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations
+```sh
+npm install
+```
 
-NextJS Middleware - https://nextjs.org/docs/app/building-your-application/routing/middleware
+### 3️⃣ **Configurer l’environnement**
 
-Prisma JS Getting started - https://www.prisma.io/docs/getting-started/quickstart-sqlite
+Créer un fichier **`.env`** et ajouter :
 
-Jose - https://www.npmjs.com/package/jose
+```env
+# Mode développement (SQLite)
+DATABASE_PROVIDER="sqlite"
+DATABASE_URL="file:./dev.db"
 
-Bcrypt JS - https://www.npmjs.com/package/bcryptjs
+# Mode production (PostgreSQL - Supabase)
+POSTGRES_URL="..."
+DATABASE_URL=${POSTGRES_URL}
+POSTGRES_PRISMA_URL="..."
+SUPABASE_URL="..."
+NEXT_PUBLIC_SUPABASE_URL="..."
+POSTGRES_URL_NON_POOLING="..."
+SUPABASE_JWT_SECRET="..."
+POSTGRES_USER="..."
+NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
+POSTGRES_PASSWORD="..."
+POSTGRES_DATABASE="..."
+SUPABASE_SERVICE_ROLE_KEY="..."
+POSTGRES_HOST="..."
+
+# Clé API pour RAWG (Jeux vidéo)
+NEXT_PUBLIC_RAWG_API_KEY="..."
+
+# Secret pour sécuriser les sessions JWT
+SESSION_SECRET_KEY="..."
+```
+
+🔹 **En local** : **SQLite** est utilisé  
+🔹 **En production** : **PostgreSQL** sur **Supabase**
+
+### 4️⃣ **Générer le client Prisma**
+
+```sh
+npx prisma generate
+```
+
+### 5️⃣ **Appliquer les migrations**
+
+📌 **En local (SQLite)** :
+
+```sh
+npx prisma migrate dev --name init
+```
+
+📌 **En production (Supabase - PostgreSQL)** :
+
+```sh
+npx prisma migrate deploy
+```
+
+### 6️⃣ **Lancer le serveur**
+
+```sh
+npm run dev
+```
+
+📌 **Accès local** : [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🔑 **Authentification & Sécurité**
+
+**Le système d'authentification repose sur JWT & Sessions.**  
+✔️ **Les mots de passe** sont **hachés avec `bcryptjs`** avant stockage  
+✔️ **Les tokens JWT** sont **signés et sécurisés** avec `jose`  
+✔️ **Les sessions utilisateurs** sont stockées côté serveur pour plus de sécurité  
+
+### **Sécurité**
+
+✅ Protection **XSS** via **Next.js et React**  
+✅ Protection **SQL Injection (SQLi)** grâce à **Prisma**  
+✅ Protection **CSRF** via **Tokens JWT & Sessions sécurisées**  
+✅ Vérification et validation des entrées utilisateur avec **Zod**  
+
+---
+
+## 🔍 **API utilisée**
+
+L’application utilise **RAWG API** pour récupérer les jeux vidéo.  
+📌 **Documentation** : [RAWG API](https://api.rawg.io/docs/)
+
+**Endpoints principaux :**
+
+- **Liste des jeux** :  
+  `https://api.rawg.io/api/games?key=VOTRE_CLE_API`
+- **Détails d'un jeu** :  
+  `https://api.rawg.io/api/games/{id}?key=VOTRE_CLE_API`
+- **Ajouts et extensions d'un jeu** :  
+  `https://api.rawg.io/api/games/{id}/additions?key=VOTRE_CLE_API`
+
+---
+
+## 📜 **Roadmap**
+
+| 🚀 Étape | 📌 Tâche                                  | 🏁 Statut   |
+| -------- | ----------------------------------------- | ----------- |
+| **1**    | Implémentation de l'authentification      | ✅ Terminé   |
+| **2**    | Page `/games` (recherche, filtres, liste) | ✅ Terminé   |
+| **3**    | Système de favoris (ajout/suppression)    | ✅ Terminé   |
+| **4**    | Page `/profile` (détails utilisateur)     | ✅ Terminé   |
+| **5**    | Protection XSS, SQLi, CSRF                | 🔄 En cours |
+| **6**    | Caching et amélioration des performances  | 🔜 À faire  |
+| **7**    | Déploiement sur **Vercel**                | ✅ Terminé   |
+
+---
+
+## 💡 **Ressources utiles**
+
+- **[Next.js Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)**  
+- **[Next.js Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware)**  
+- **[Prisma JS Quickstart (SQLite)](https://www.prisma.io/docs/getting-started/quickstart-sqlite)**  
+- **[Jose (JWT Auth)](https://www.npmjs.com/package/jose)**  
+- **[Bcrypt JS (Hashing Passwords)](https://www.npmjs.com/package/bcryptjs)**  
+
+---
+
+## 🎉 **Contribuer**
+
+Les contributions sont **les bienvenues** !  
+Si vous trouvez un bug ou souhaitez ajouter une fonctionnalité, ouvrez une **issue** ou un **Pull Request** 🚀.
+
+📬 **Contact** : [https://ahmat-mahamat.vercel.app](https://ahmat-mahamat.vercel.app)
+
+---
+
+🔥 **Merci d'utiliser Fun Game Store !** 🔥  
+🎮 Bon jeu et amusez-vous bien ! 🚀
+
+---
