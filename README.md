@@ -72,21 +72,12 @@ Créer un fichier **`.env`** et ajouter :
 # Mode développement (SQLite)
 DATABASE_PROVIDER="sqlite"
 DATABASE_URL="file:./dev.db"
+DIRECT_URL=""
 
 # Mode production (PostgreSQL - Supabase)
 POSTGRES_URL="..."
-DATABASE_URL=${POSTGRES_URL}
-POSTGRES_PRISMA_URL="..."
-SUPABASE_URL="..."
-NEXT_PUBLIC_SUPABASE_URL="..."
-POSTGRES_URL_NON_POOLING="..."
-SUPABASE_JWT_SECRET="..."
-POSTGRES_USER="..."
-NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
-POSTGRES_PASSWORD="..."
-POSTGRES_DATABASE="..."
-SUPABASE_SERVICE_ROLE_KEY="..."
-POSTGRES_HOST="..."
+DATABASE_URL="POSTGRES_PRISMA_URL" # à modifier
+DIRECT_URL="POSTGRES_URL_NON_POOLING" # à modifier
 
 # Clé API pour RAWG (Jeux vidéo)
 NEXT_PUBLIC_RAWG_API_KEY="..."
@@ -137,10 +128,10 @@ npm run dev
 
 ### **Sécurité**
 
-✅ Protection **XSS** via **Next.js et React**  
-✅ Protection **SQL Injection (SQLi)** grâce à **Prisma**  
-✅ Protection **CSRF** via **Tokens JWT & Sessions sécurisées**  
 ✅ Vérification et validation des entrées utilisateur avec **Zod**  
+🔄 Protection **XSS** via **Next.js et React**  
+🔄 Protection **SQL Injection (SQLi)** grâce à **Prisma**  
+🔄 Protection **CSRF** via **Tokens JWT & Sessions sécurisées**  
 
 ---
 
