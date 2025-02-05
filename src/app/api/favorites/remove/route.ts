@@ -11,16 +11,14 @@ export async function POST(request: Request) {
      */
 
     if (!gameId) {
-      return new Response(
-        JSON.stringify({ error: "gameId is required" }),
+      return Response.json({ error: "gameId is required" },
         { status: 400 }
       );
     }
 
     const session = await getSession();
     if (!session?.user?.id) {
-      return new Response(
-        JSON.stringify({ error: "User is not authenticated" }),
+      return Response.json({ error: "User is not authenticated" },
         { status: 401 }
       );
     }
@@ -34,14 +32,12 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response(
-      JSON.stringify({ message: "Removed from favorites" }),
+    return Response.json({ message: "Removed from favorites" },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error removing from favorites:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal Server Error" }),
+    return Response.json({ error: "Internal Server Error" },
       { status: 500 }
     );
   }

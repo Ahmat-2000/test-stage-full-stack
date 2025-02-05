@@ -74,8 +74,7 @@ export async function POST(request: Request) {
     });
 
     if (existingFavorite) {
-      return new Response(
-        JSON.stringify({ error: "Game is already in favorites" }),
+      return Response.json({ error: "Game is already in favorites" },
         { status: 400 }
       );
     }
@@ -87,15 +86,13 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response(
-      JSON.stringify({ message: "Added to favorites", favorite }),
+    return Response.json({ message: "Added to favorites", favorite },
       { status: 201 }
     );
 
   } catch (error) {
     console.error("Error adding to favorites:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal Server Error" }),
+    return Response.json({ error: "Internal Server Error" },
       { status: 500 }
     );
   }

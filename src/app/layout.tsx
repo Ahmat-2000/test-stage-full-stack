@@ -25,11 +25,11 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`antialiased ${inter.className} bg-[#12151f] text-neutral-300`}>
       <AuthProvider>
-        <main className="container max-w-[1280px] xl:mx-auto px-2">
+        <main className="container max-w-[1280px] xl:mx-auto px-2 min-h-[80vh]">
           <NavBar />
           {children}
-          <Footer />
         </main>
+        <Footer />
       </AuthProvider>
       </body>
     </html>

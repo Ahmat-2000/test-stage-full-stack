@@ -74,7 +74,7 @@ export default function Favorites() {
 
   return (
     <GamesList 
-      title={"❤️ My Favorite Games"} 
+      title={"❤️ My Favorite"} 
       PAGE_SIZE={PAGE_SIZE} 
       handleToggleFavorite={handleToggleFavorite} 
       state={{ 

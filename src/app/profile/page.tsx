@@ -1,31 +1,27 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthContext } from "@/context/authContext";
-import InputUI from "@/components/InputUI"; 
-
-const profileSchema = z.object({
-  name: z.string().min(3, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email format"),
-  password: z.string().optional(),
-});
+import { profileSchema } from "@/types/types";
+import InputUI from "@/components/InputUI";
+import ButtonUI from "@/components/ButtonUI";
+import { z } from "zod";
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function ProfilePage() {
   const auth = useContext(AuthContext);
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -40,9 +36,7 @@ export default function ProfilePage() {
         setValue("name", data.name);
         setValue("email", data.email);
       } catch (error) {
-        setError("Failed to load profile");
-      } finally {
-        setLoading(false);
+        setError("root", { message: "Failed to load profile" });
       }
     };
 
@@ -51,9 +45,12 @@ export default function ProfilePage() {
     } else {
       router.push("/login");
     }
-  }, [auth?.isAuthenticated, router, setValue]);
+  }, [auth?.isAuthenticated, router, setValue, setError]);
 
   const onSubmit = async (data: ProfileFormData) => {
+    setError("root", { message: "" });
+    setSuccessMessage(null);
+
     try {
       const response = await fetch("/api/user/update", {
         method: "POST",
@@ -61,10 +58,22 @@ export default function ProfilePage() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Failed to update profile");
-      alert("Profile updated successfully!");
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.code === "ZOD_ERROR") {
+          Object.keys(result.errors).forEach((key) => {
+            setError(key as keyof ProfileFormData, { message: result.errors[key]._errors[0] });
+          });
+          setError("root", { message: "Please fix the errors above." });
+        } else {
+          setError("root", { message: result.error || "Failed to update profile" });
+        }
+      } else {
+        setSuccessMessage("Profile updated successfully!");
+      }
     } catch (error) {
-      setError("Failed to update profile");
+      setError("root", { message: "Internal Server Error. Please try again." });
     }
   };
 
@@ -75,34 +84,45 @@ export default function ProfilePage() {
       const response = await fetch("/api/user/delete", { method: "DELETE" });
       if (!response.ok) throw new Error("Failed to delete account");
 
-      alert("Account deleted successfully!");
       auth?.handleLogout();
       router.push("/signup");
     } catch (error) {
-      setError("Failed to delete account");
+      setError("root", { message: "Failed to delete account" });
     }
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
-
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-900 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-4">👤 My Profile</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* ✅ Using InputUI component */}
-        <InputUI id="name" type="text" labelText="Name" register={register("name")} error={errors.name} />
-        <InputUI id="email" type="email" labelText="Email" register={register("email")} error={errors.email} />
-        <InputUI id="password" type="password" labelText="New Password (optional)" register={register("password")} error={errors.password} />
+    <div className="flex h-[80vh] items-center justify-center">
+      <div className="max-w-lg w-full p-6 bg-gray-900 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold text-center mb-4">👤 My Profile</h2>
 
-        <button type="submit" className="w-full p-2 bg-green-600 hover:bg-green-700 text-white rounded-md" disabled={isSubmitting}>
-          {isSubmitting ? "Updating..." : "Update Profile"}
-        </button>
-      </form>
+        {errors.root && <p className="text-center text-red-500">{errors.root.message}</p>}
+        {successMessage && <p className="text-center text-green-500">{successMessage}</p>}
 
-      <button onClick={handleDeleteAccount} className="w-full mt-4 p-2 bg-red-600 hover:bg-red-700 text-white rounded-md">
-        Delete Account
-      </button>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <InputUI id="name" type="text" labelText="Name" register={register("name")} error={errors.name} />
+          <InputUI id="email" type="email" labelText="Email" register={register("email")} error={errors.email} />
+          <InputUI id="password" type="password" labelText="New Password (optional)" register={register("password")} error={errors.password} />
+
+          <ButtonUI 
+            text="Update Profile"
+            type="submit"
+            className="bg-green-600 hover:bg-green-800 text-white"
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
+            loadingText="Updating..."
+          />
+
+          <ButtonUI 
+            text="Delete Account"
+            loadingText="Deleting..."
+            type="button"
+            disabled={isSubmitting}
+            onClick={handleDeleteAccount}           
+            className="bg-red-600 hover:bg-red-700 text-white"
+          />
+        </form>
+      </div>
     </div>
   );
 }

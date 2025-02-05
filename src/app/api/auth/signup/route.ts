@@ -14,10 +14,10 @@ export async function POST(request: Request) {
     /* Validate with Zod */
     const validation = userSignUpSchema.safeParse(requestData);
     if (!validation.success) {
-      return new Response(JSON.stringify({
+      return Response.json({
         code: "ZOD_ERROR", 
         errors: validation.error.format()
-      }), { status: 400 });
+      }, { status: 400 });
     }
 
     const { email, name, password } = validation.data;
@@ -25,10 +25,10 @@ export async function POST(request: Request) {
     /* Check if user already exists */
     const existingUser = await prisma.users.findUnique({ where: { email } });
     if (existingUser) {
-      return new Response(JSON.stringify({
+      return Response.json({
         code: "USER_EXISTS",
         message: "User already exists",
-      }), { status: 400 });
+      }, { status: 400 });
     }
 
     /* Hash Password */
@@ -40,17 +40,17 @@ export async function POST(request: Request) {
       select: { id: true, email: true, name: true, createdAt: true },
     });
 
-    return new Response(JSON.stringify({
+    return Response.json({
       code: "SUCCESS", 
       message: "Account created successfully! Redirecting...",
       user: createdUser,
-    }), { status: 201 });
+    }, { status: 201 });
 
   } catch (error) {
     console.error("Sign up error:", error);
-    return new Response(JSON.stringify({
+    return Response.json({
       code: "SERVER_ERROR",
       message: "Something went wrong",
-    }), { status: 500 });
+    }, { status: 500 });
   }
 }

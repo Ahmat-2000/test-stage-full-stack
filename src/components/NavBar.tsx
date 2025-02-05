@@ -38,8 +38,9 @@ function NavBar() {
             <li key={url} className={`${pathname === url && "title-blue"} flex justify-center w-full`}>
                 {url === "/logout" ? (
                     <button onClick={async () => {
+                        hideMenu();
                         await auth?.handleLogout();
-                        route.push('/login')
+                        route.push('/')
                     }} className="flex justify-center font-semibold w-1/2 md:w-auto py-1 text-center shadow-md shadow-gray-900 rounded-md text-xl md:shadow-none md:text-lg md:rounded-none hover:opacity-55 transition-opacity duration-150 ">
                         {text}
                     </button>

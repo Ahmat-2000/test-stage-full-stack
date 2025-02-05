@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const session = await getSession();
     if (!session?.user?.id) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
     const { name, email, password } = await request.json();
     /**
@@ -18,14 +18,10 @@ export async function POST(request: Request) {
     /* Validate with Zod */
     const validation = profileSchema.safeParse({name, email , password});
     if (!validation.success) {
-      return new Response(JSON.stringify({
+      return Response.json({
         code: "ZOD_ERROR", 
         errors: validation.error.format()
-      }), { status: 400 });
-    }
-    
-    if (!name || !email) {
-      return new Response(JSON.stringify({ error: "Name and email are required" }), { status: 400 });
+      }, { status: 400 });
     }
 
     const updateData: { name: string; email: string; password?: string } = { name, email };
@@ -41,10 +37,10 @@ export async function POST(request: Request) {
       select: { id: true, name: true, email: true },
     });
 
-    return new Response(JSON.stringify(updatedUser), { status: 200 });
+    return Response.json(updatedUser, { status: 200 });
 
   } catch (error) {
     console.error("Error updating user profile:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
