@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const fs = require("fs");
-require("dotenv").config();
+import fs from "fs";
+import 'dotenv/config'
+
+// console.log(process.env.NODE_ENV === 'production');
 
 const schemaPath = "prisma/schema.prisma";
 let schema = fs.readFileSync(schemaPath, "utf8");

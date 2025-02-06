@@ -1,7 +1,5 @@
 
 "use client";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require('dotenv').config()
 import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import GameCard from "@/components/GameCard";
