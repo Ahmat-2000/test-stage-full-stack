@@ -1,6 +1,6 @@
 // Prisma Schema - Game Store
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
