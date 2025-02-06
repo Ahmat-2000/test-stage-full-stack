@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx prisma migrate && npx prisma migrate dev --name init && next dev --turbopack",
+    "dev": "npx prisma migrate dev --name init && next dev --turbopack",
     "build": "npx prisma migrate && npx prisma migrate dev --name init && next build",
     "set-db-provider": "node set-db-provider-script.ts",
     "vercel-build": "npm run set-db-provider && prisma db push && npx prisma generate && npx prisma migrate deploy && ls -a prisma/ && next build",
