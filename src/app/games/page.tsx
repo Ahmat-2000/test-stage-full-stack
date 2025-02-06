@@ -31,8 +31,8 @@ export default function Games() {
           setGames(data.results);
           setFavorites(new Set(data.favorites));
           setTotalPages(Math.ceil(data.total_count / PAGE_SIZE));
+          setLoading(false);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching games:", error);
       }

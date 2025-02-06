@@ -4,7 +4,6 @@ import { useContext, Dispatch, SetStateAction } from "react";
 import GameCard from "@/components/GameCard";
 import GameCardLoader from "@/components/GameCardLoader";
 import { Game } from "@/types/types";
-import { AuthContext } from "@/context/authContext";
 
 type GameListState = {
   page: number;
@@ -28,7 +27,6 @@ export default function GamesList({
   title, handleToggleFavorite, state,PAGE_SIZE
 }: GameListProps) {
   const { page, setPage, searchTerm, setSearchTerm, favorites, loading, games, totalPages} = state;
-  const auth = useContext(AuthContext);
 
   return (
     <div className="flex flex-col gap-5 min-h-[80vh] py-1">

@@ -30,8 +30,8 @@ export default function Favorites() {
           setGames(data.results);
           setFavorites(new Set(data.results.map((game: Game) => game.id)));
           setTotalPages(Math.ceil(data.total_count / PAGE_SIZE));
+          setLoading(false);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching favorite games:", error);
       }

@@ -1,6 +1,7 @@
 
 "use client";
-
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+require('dotenv').config()
 import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import GameCard from "@/components/GameCard";
@@ -42,8 +43,8 @@ export default function Home() {
         if (data.results) {
           setGames(data.results);
           setFavorites(new Set(data.favorites || []));
+          setLoading(false);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
