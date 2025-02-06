@@ -6,7 +6,7 @@
     "dev": "npx prisma migrate dev --name init && next dev --turbopack",
     "build": "npx prisma migrate && npx prisma migrate dev --name init && next build",
     "set-db-provider": "node set-db-provider-script.ts",
-    "vercel-build": "npm run set-db-provider && npx prisma db push && npx prisma generate && npx prisma migrate deploy && ls -a prisma/ && next build",
+    "vercel-build": "npm run set-db-provider && npx prisma generate && npx prisma migrate deploy && ls -a prisma/ && next build",
     "start": "next start",
     "lint": "next lint"
   },
