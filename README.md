@@ -69,47 +69,28 @@ npm install
 Créer un fichier **`.env`** et ajouter :
 
 ```env
+# Clé API pour RAWG (Jeux vidéo)
+NEXT_PUBLIC_RAWG_API_KEY="..."
+
+# Secret pour sécuriser les sessions JWT
+SESSION_SECRET_KEY="..."
+
 # Mode développement (SQLite)
 DATABASE_PROVIDER="sqlite"
 DATABASE_URL="file:./dev.db"
-DIRECT_URL=""
+DIRECT_URL="file:./dev.db"
 
 # Mode production (PostgreSQL - Supabase)
 POSTGRES_URL="..."
 DATABASE_URL="POSTGRES_PRISMA_URL" # à modifier
 DIRECT_URL="POSTGRES_URL_NON_POOLING" # à modifier
 
-# Clé API pour RAWG (Jeux vidéo)
-NEXT_PUBLIC_RAWG_API_KEY="..."
-
-# Secret pour sécuriser les sessions JWT
-SESSION_SECRET_KEY="..."
 ```
 
 🔹 **En local** : **SQLite** est utilisé  
 🔹 **En production** : **PostgreSQL** sur **Supabase**
 
-### 4️⃣ **Générer le client Prisma**
-
-```sh
-npx prisma generate
-```
-
-### 5️⃣ **Appliquer les migrations**
-
-📌 **En local (SQLite)** :
-
-```sh
-npx prisma migrate dev --name init
-```
-
-📌 **En production (Supabase - PostgreSQL)** :
-
-```sh
-npx prisma migrate deploy
-```
-
-### 6️⃣ **Lancer le serveur**
+### 4️⃣ **Lancer le serveur**
 
 ```sh
 npm run dev
@@ -184,7 +165,6 @@ Si vous trouvez un bug ou souhaitez ajouter une fonctionnalité, ouvrez une **is
 
 ---
 
-🔥 **Merci d'utiliser Fun Game Store !** 🔥  
-🎮 Bon jeu et amusez-vous bien ! 🚀
+🎮 Amusez-vous bien ! 🚀
 
 ---
