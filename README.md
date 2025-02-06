@@ -50,11 +50,29 @@
 ---
 
 ## 📦 **Installation et configuration**
+Voici une version mise à jour de la section **Installation et configuration** avec l'ajout d'une section **Prérequis** :
+
+---
+
+## 📦 **Installation et configuration**
+
+### 🔍 **Prérequis**
+
+Avant de démarrer, assurez-vous d'avoir installé sur votre machine :
+
+- **Git** : Pour cloner le dépôt du projet.  
+  [Télécharger Git](https://git-scm.com/downloads)
+
+- **Node.js** (version 14 ou ultérieure) : Pour exécuter le serveur de développement.  
+  [Télécharger Node.js](https://nodejs.org/)
+
+- **npm** : Le gestionnaire de paquets fourni avec Node.js.
+
 
 ### 1️⃣ **Cloner le projet**
 
 ```sh
-git clone https://github.com/Ahmat-2000/fun-game-store.git
+git clone https://github.com/Ahmat-2000/test-stage-full-stack.git
 cd fun-game-store
 ```
 
